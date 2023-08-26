@@ -6,7 +6,8 @@
     "dev": "bun run --watch index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "elysia": "latest",
+    "mongoose": "^7.4.5"
   },
   "devDependencies": {
     "bun-types": "latest"
