@@ -7,7 +7,8 @@
   },
   "dependencies": {
     "elysia": "^0.7.16",
-    "mongoose": "^7.4.5"
+    "mongoose": "^7.4.5",
+    "picocolors": "^1.0.0"
   },
   "devDependencies": {
     "bun-types": "latest"
