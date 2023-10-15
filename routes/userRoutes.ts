@@ -27,4 +27,4 @@ const userRoutes = (app: Elysia) => {
   )
 }
 
-export default userRoutes
+export default userRoutes as any

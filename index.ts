@@ -1,4 +1,4 @@
-import { Elysia, t } from 'elysia'
+import Elysia from 'elysia'
 import { userRoutes } from './routes'
 
 // Create Elysia instance

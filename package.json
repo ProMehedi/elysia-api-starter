@@ -2,11 +2,11 @@
   "name": "elysia-api",
   "version": "1.0.50",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "bun run index.ts",
     "dev": "bun run --watch index.ts"
   },
   "dependencies": {
-    "elysia": "latest",
+    "elysia": "^0.7.16",
     "mongoose": "^7.4.5"
   },
   "devDependencies": {
