@@ -1,6 +1,11 @@
 {
-  "name": "elysia-api",
-  "version": "1.0.50",
+  "name": "elysia-api-starter",
+  "author": {
+    "name": "Mehedi Hasan",
+    "email": "admin@promehedi.com",
+    "url": "https://promehedi.com"
+  },
+  "version": "1.0.0",
   "scripts": {
     "start": "bun run index.ts",
     "dev": "bun run --watch index.ts"
@@ -13,5 +18,5 @@
   "devDependencies": {
     "bun-types": "latest"
   },
-  "module": "index.js"
+  "module": "index.ts"
 }
