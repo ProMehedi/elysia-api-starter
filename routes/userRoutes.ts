@@ -11,19 +11,19 @@ const userRoutes = (app: Elysia) => {
   app.group('/api/v1/users', (app) =>
     // Create a new user
     app
-      .post('/', ({ body }) => createUser(body))
+      .post('/', createUser)
 
       // Get all users
-      .get('/', (c) => getUsers(c))
+      .get('/', getUsers)
 
       // Get a single user
-      .get('/:id', ({ params }) => getUser(params.id))
+      .get('/:id', getUser)
 
       // Update a single user
-      .put('/:id', ({ params, body }) => updateUser(params.id, body))
+      .put('/:id', updateUser)
 
       // Delete a single user
-      .delete('/:id', ({ params }) => deleteUser(params.id))
+      .delete('/:id', deleteUser)
   )
 }
 

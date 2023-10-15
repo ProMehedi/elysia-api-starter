@@ -6,11 +6,11 @@ import { User } from '../models'
  * @description: Create a new user
  * @action public
  */
-export const createUser = (body: any) => {
+export const createUser = (c: Context) => {
   //   Check for body
-  if (!body) return 'No body provided'
+  if (!c.body) return 'No body provided'
 
-  return body
+  return c.body
 }
 
 /**
@@ -41,11 +41,13 @@ export const getUsers = async (c: Context) => {
  * @description: Get a single user
  * @action public
  */
-export const getUser = (id: string) => {
-  //   Check for id
-  if (!id) return 'No id provided'
+export const getUser = async (c: Context<{ params: { id: string } }>) => {
+  if (c.params && !c.params?.id) {
+    c.set.status = 400
+    throw new Error('No id provided')
+  }
 
-  return `Get user with id ${id}`
+  return `Get user with id ${c.params.id}`
 }
 
 /**
@@ -53,14 +55,16 @@ export const getUser = (id: string) => {
  * @description: Update a single user
  * @action public
  */
-export const updateUser = (id: string, body: any) => {
-  //   Check for id
-  if (!id) return 'No id provided'
+export const updateUser = async (c: Context<{ params: { id: string } }>) => {
+  if (c.params && !c.params?.id) {
+    c.set.status = 400
+    throw new Error('No id provided')
+  }
 
   //   Check for body
-  if (!body) return 'No body provided'
+  if (!c.body) throw new Error('No body provided')
 
-  return `Update user with id ${id}`
+  return `Update user with id ${c.params.id}`
 }
 
 /**
@@ -68,9 +72,11 @@ export const updateUser = (id: string, body: any) => {
  * @description: Delete a single user
  * @action public
  */
-export const deleteUser = (id: string) => {
-  //   Check for id
-  if (!id) return 'No id provided'
+export const deleteUser = async (c: Context<{ params: { id: string } }>) => {
+  if (c.params && !c.params?.id) {
+    c.set.status = 400
+    throw new Error('No id provided')
+  }
 
-  return `Delete user with id ${id}`
+  return `Delete user with id ${c.params.id}`
 }
