@@ -1,9 +1,14 @@
 import Elysia from 'elysia'
+//
 import { userRoutes } from './routes'
 import { logger } from './middlewares'
+import { connectDB } from './config'
 
 // Create Elysia instance
 const app = new Elysia()
+
+// Config MongoDB
+connectDB()
 
 // Middlewares
 app.use(logger())
