@@ -14,7 +14,7 @@ const userRoutes = (app: Elysia) => {
       .post('/', ({ body }) => createUser(body))
 
       // Get all users
-      .get('/', () => getUsers())
+      .get('/', (c) => getUsers(c))
 
       // Get a single user
       .get('/:id', ({ params }) => getUser(params.id))

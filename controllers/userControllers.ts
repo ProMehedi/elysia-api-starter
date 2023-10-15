@@ -1,3 +1,6 @@
+import { Context } from 'elysia'
+import { User } from '../models'
+
 /**
  * @api [POST] /users
  * @description: Create a new user
@@ -15,8 +18,23 @@ export const createUser = (body: any) => {
  * @description: Get all users
  * @action public
  */
-export const getUsers = () => {
-  return 'Get all users'
+export const getUsers = async ({ set }: Context) => {
+  const users = await User.find().select('-password')
+
+  // Check for users
+  if (!users || users.length === 0) {
+    console.log('first')
+    set.status = 404
+    throw new Error('No users found!')
+  }
+
+  // Return success response
+  return {
+    status: 200,
+    success: true,
+    data: users,
+    message: 'Users fetched successfully',
+  }
 }
 
 /**
