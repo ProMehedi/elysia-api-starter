@@ -1,7 +1,7 @@
 import Elysia from 'elysia'
 //
 import { userRoutes } from './routes'
-import { logger } from './middlewares'
+import { error, logger } from './middlewares'
 import { connectDB } from './config'
 
 // Create Elysia instance
@@ -12,6 +12,7 @@ connectDB()
 
 // Middlewares
 app.use(logger())
+app.use(error())
 
 // Root Routes
 app.get('/', () => 'Welcome to our API')
