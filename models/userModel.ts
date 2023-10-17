@@ -1,17 +1,17 @@
 import { Document, Schema, model } from 'mongoose'
 
-interface IUser {
+interface User {
   name: string
   email: string
   password: string
   isAdmin: boolean
 }
 
-interface IUserDoc extends IUser, Document {
+interface UserDoc extends User, Document {
   mathPassword: (pass: string) => Promise<boolean>
 }
 
-const userSchema = new Schema<IUserDoc>(
+const userSchema = new Schema<UserDoc>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -41,5 +41,5 @@ userSchema.pre('save', async function (next) {
   })
 })
 
-const User: any = model('User', userSchema)
+const User = model<UserDoc>('User', userSchema)
 export default User
