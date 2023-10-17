@@ -5,8 +5,8 @@ import {
   getUser,
   getUsers,
   updateUser,
-} from '../controllers'
-import { admin, auth } from '../middlewares'
+} from '~/controllers'
+import { admin, auth } from '~/middlewares'
 
 const userRoutes = (app: Elysia) => {
   app.group('/api/v1/users', (app) =>

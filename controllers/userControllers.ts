@@ -1,6 +1,6 @@
 import { Context } from 'elysia'
-import { User } from '../models'
-import { jwt } from '../utils'
+import { User } from '~/models'
+import { jwt } from '~/utils'
 
 /**
  * @api [POST] /users
