@@ -1,16 +1,51 @@
 import { Context } from 'elysia'
 import { User } from '../models'
+import { jwt } from '../utils'
 
 /**
  * @api [POST] /users
  * @description: Create a new user
  * @action public
  */
-export const createUser = (c: Context) => {
+export const createUser = async (c: AppContext) => {
   //   Check for body
-  if (!c.body) return 'No body provided'
+  if (!c.body) throw new Error('No body provided')
 
-  return c.body
+  const { name, email, password, isAdmin } = c.body as RegBody
+
+  // Check for user
+  const userExists = await User.findOne({ email })
+  if (userExists) {
+    c.set.status = 400
+    throw new Error('User already exists!')
+  }
+
+  // Create user
+  const _user = await User.create({
+    name,
+    email,
+    password,
+    isAdmin,
+  })
+
+  if (!_user) {
+    c.set.status = 400
+    throw new Error('Invalid user data!')
+  }
+
+  // Generate token
+  const accessToken = await jwt.sign({
+    data: { id: _user._id.toString(), isAdmin: _user.isAdmin },
+  })
+
+  // Return success response
+  c.set.status = 201
+  return {
+    status: c.set.status,
+    success: true,
+    data: { accessToken },
+    message: 'User created successfully',
+  }
 }
 
 /**
@@ -18,7 +53,7 @@ export const createUser = (c: Context) => {
  * @description: Get all users
  * @action public
  */
-export const getUsers = async (c: Context) => {
+export const getUsers = async (c: AppContext) => {
   const users = await User.find().select('-password')
 
   // Check for users

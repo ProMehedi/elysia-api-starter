@@ -1,4 +1,4 @@
-import Elysia from 'elysia'
+import { Elysia, t } from 'elysia'
 import {
   createUser,
   deleteUser,
@@ -12,7 +12,14 @@ const userRoutes = (app: Elysia) => {
   app.group('/api/v1/users', (app) =>
     // Create a new user
     app
-      .post('/', createUser)
+      .post('/', createUser, {
+        body: t.Object({
+          name: t.String(),
+          email: t.String(),
+          password: t.String(),
+        }),
+        type: 'json',
+      })
 
       // Get all users
       .get('/', getUsers, {
@@ -20,13 +27,19 @@ const userRoutes = (app: Elysia) => {
       })
 
       // Get a single user
-      .get('/:id', getUser)
+      .get('/:id', getUser, {
+        beforeHandle: (c) => auth(c),
+      })
 
       // Update a single user
-      .put('/:id', updateUser)
+      .put('/:id', updateUser, {
+        beforeHandle: (c) => auth(c),
+      })
 
       // Delete a single user
-      .delete('/:id', deleteUser)
+      .delete('/:id', deleteUser, {
+        beforeHandle: (c) => admin(c),
+      })
   )
 }
 
