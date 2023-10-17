@@ -1,8 +1,9 @@
-import Elysia from 'elysia'
+import { Elysia } from 'elysia'
 //
 import { userRoutes } from './routes'
 import { error, logger } from './middlewares'
 import { connectDB } from './config'
+import { jwt } from '@elysiajs/jwt'
 
 // Create Elysia instance
 const app = new Elysia()
@@ -11,6 +12,14 @@ const app = new Elysia()
 connectDB()
 
 // Middlewares
+app.use(
+  // @ts-ignore
+  jwt({
+    name: 'jwt',
+    secret: Bun.env.JWT_SECRET || '',
+    exp: '7d',
+  })
+)
 app.use(logger())
 app.use(error())
 

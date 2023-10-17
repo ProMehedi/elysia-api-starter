@@ -11,7 +11,7 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/node_modules": true,
-    "**/*.d.ts": true,
+    // "**/*.d.ts": true,
     "*.log": true,
     "**/*.lock": true,
     "**/*.lockb": true,

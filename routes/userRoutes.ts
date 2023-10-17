@@ -6,7 +6,7 @@ import {
   getUsers,
   updateUser,
 } from '../controllers'
-import { auth } from '../middlewares'
+import { admin, auth } from '../middlewares'
 
 const userRoutes = (app: Elysia) => {
   app.group('/api/v1/users', (app) =>
@@ -16,7 +16,7 @@ const userRoutes = (app: Elysia) => {
 
       // Get all users
       .get('/', getUsers, {
-        beforeHandle: (c) => auth(c),
+        beforeHandle: (c) => admin(c),
       })
 
       // Get a single user
