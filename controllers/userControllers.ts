@@ -7,7 +7,7 @@ import { jwt } from '../utils'
  * @description: Create a new user
  * @action public
  */
-export const createUser = async (c: AppContext) => {
+export const createUser = async (c: Context) => {
   //   Check for body
   if (!c.body) throw new Error('No body provided')
 
@@ -35,7 +35,7 @@ export const createUser = async (c: AppContext) => {
 
   // Generate token
   const accessToken = await jwt.sign({
-    data: { id: _user._id.toString(), isAdmin: _user.isAdmin },
+    data: { id: _user._id, isAdmin: _user.isAdmin },
   })
 
   // Return success response
@@ -53,8 +53,8 @@ export const createUser = async (c: AppContext) => {
  * @description: Get all users
  * @action public
  */
-export const getUsers = async (c: AppContext) => {
-  const users = await User.find().select('-password')
+export const getUsers = async (c: Context) => {
+  const users = await User.find()
 
   // Check for users
   if (!users || users.length === 0) {

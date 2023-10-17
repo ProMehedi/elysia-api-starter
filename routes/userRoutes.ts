@@ -17,6 +17,7 @@ const userRoutes = (app: Elysia) => {
           name: t.String(),
           email: t.String(),
           password: t.String(),
+          isAdmin: t.Optional(t.Boolean()),
         }),
         type: 'json',
       })

@@ -1,15 +1,17 @@
+import { Context } from 'elysia'
 import { User } from '../models'
+import { jwt } from '../utils'
 
 /**
  * @name auth
  * @description Middleware to protect routes with JWT
  */
-export const auth: any = async (c: AppContext) => {
+export const auth: any = async (c: Context) => {
   let token
   if (c.headers.authorization && c.headers.authorization.startsWith('Bearer')) {
     try {
       token = c.headers.authorization.split(' ')[1]
-      const decoded = await c.jwt.verify(token)
+      const decoded = await jwt.verify(token)
       const user = await User.findById(decoded.id)
 
       c.request.headers.set('userId', user?._id.toString())
@@ -30,7 +32,7 @@ export const auth: any = async (c: AppContext) => {
  * @name admin
  * @description Middleware to protect routes with JWT and protect routes for admin only
  */
-export const admin: any = async (c: AppContext) => {
+export const admin: any = async (c: Context) => {
   await auth(c)
 
   const isAdmin = c.request.headers.get('isAdmin')
