@@ -70,7 +70,6 @@ export const loginUser = async (c: Context) => {
 
   // Check for password
   const isMatch = await user.mathPassword(password)
-  console.log(isMatch)
   if (!isMatch) {
     c.set.status = 401
     throw new Error('Invalid email or password!')
@@ -171,7 +170,31 @@ export const updateUser = async (c: Context<{ params: { id: string } }>) => {
   //   Check for body
   if (!c.body) throw new Error('No body provided')
 
-  return `Update user with id ${c.params.id}`
+  const { name, email, password } = c.body as UpdateBody
+
+  // Update user
+  const user = await User.findById(c.params.id)
+  if (!user) {
+    c.set.status = 404
+    throw new Error('User not found!')
+  }
+  user.name = name || user.name
+  user.email = email || user.email
+  user.password = password || user.password
+  const updatedUser = await user.save()
+
+  if (!updatedUser) {
+    c.set.status = 400
+    throw new Error('Invalid user data!')
+  }
+
+  // Return success response
+  return {
+    status: c.set.status,
+    success: true,
+    data: updatedUser,
+    message: 'User updated successfully',
+  }
 }
 
 /**

@@ -15,4 +15,6 @@ declare global {
     email: string
     password: string
   }
+
+  type UpdateBody = {} & Partial<RegBody>
 }

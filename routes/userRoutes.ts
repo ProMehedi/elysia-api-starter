@@ -50,7 +50,7 @@ const userRoutes = (app: Elysia) => {
 
       // Update a single user
       .put('/:id', updateUser, {
-        beforeHandle: (c) => auth(c),
+        beforeHandle: (c) => admin(c),
       })
 
       // Delete a single user
