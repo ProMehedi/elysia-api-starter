@@ -4,6 +4,7 @@ import {
   deleteUser,
   getUser,
   getUsers,
+  loginUser,
   updateUser,
 } from '~/controllers'
 import { admin, auth } from '~/middlewares'
@@ -18,6 +19,15 @@ const userRoutes = (app: Elysia) => {
           email: t.String(),
           password: t.String(),
           isAdmin: t.Optional(t.Boolean()),
+        }),
+        type: 'json',
+      })
+
+      // Login a user
+      .post('/login', loginUser, {
+        body: t.Object({
+          email: t.String(),
+          password: t.String(),
         }),
         type: 'json',
       })

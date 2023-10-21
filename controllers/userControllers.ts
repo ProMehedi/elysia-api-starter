@@ -49,6 +49,48 @@ export const createUser = async (c: Context) => {
 }
 
 /**
+ * @api [POST] /users/login
+ * @description: Login a user
+ * @action public
+ */
+export const loginUser = async (c: Context) => {
+  //   Check for body
+  if (!c.body) throw new Error('No body provided')
+
+  const { email, password } = c.body as LoginBody
+
+  if (!email || !password) throw new Error('Invalid email or password!')
+
+  // Check for user
+  const user = await User.findOne({ email })
+  if (!user) {
+    c.set.status = 401
+    throw new Error('Invalid email or password!')
+  }
+
+  // Check for password
+  const isMatch = await user.mathPassword(password)
+  console.log(isMatch)
+  if (!isMatch) {
+    c.set.status = 401
+    throw new Error('Invalid email or password!')
+  }
+
+  // Generate token
+  const accessToken = await jwt.sign({
+    data: { id: user._id, isAdmin: user.isAdmin },
+  })
+
+  // Return success response
+  return {
+    status: c.set.status,
+    success: true,
+    data: { accessToken },
+    message: 'User logged in successfully',
+  }
+}
+
+/**
  * @api [GET] /users
  * @description: Get all users
  * @action public

@@ -10,4 +10,9 @@ declare global {
     password: string
     isAdmin?: boolean
   }
+
+  type LoginBody = {
+    email: string
+    password: string
+  }
 }
