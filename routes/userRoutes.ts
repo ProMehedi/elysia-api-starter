@@ -3,6 +3,7 @@ import {
   createUser,
   deleteUser,
   getUser,
+  getUserProfile,
   getUsers,
   loginUser,
   updateUser,
@@ -39,6 +40,11 @@ const userRoutes = (app: Elysia) => {
 
       // Get a single user
       .get('/:id', getUser, {
+        beforeHandle: (c) => auth(c),
+      })
+
+      // Get user profile
+      .get('/profile', getUserProfile, {
         beforeHandle: (c) => auth(c),
       })
 

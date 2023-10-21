@@ -93,10 +93,10 @@ export const loginUser = async (c: Context) => {
 /**
  * @api [GET] /users
  * @description: Get all users
- * @action public
+ * @action admin
  */
 export const getUsers = async (c: Context) => {
-  const users = await User.find()
+  const users = await User.find().select('-password')
 
   // Check for users
   if (!users || users.length === 0) {
@@ -116,7 +116,7 @@ export const getUsers = async (c: Context) => {
 /**
  * @api [GET] /users/:id
  * @description: Get a single user
- * @action public
+ * @action admin
  */
 export const getUser = async (c: Context<{ params: { id: string } }>) => {
   if (c.params && !c.params?.id) {
@@ -125,6 +125,36 @@ export const getUser = async (c: Context<{ params: { id: string } }>) => {
   }
 
   return `Get user with id ${c.params.id}`
+}
+
+/**
+ * @api [GET] /users/profile
+ * @description: Get user profile
+ * @action private
+ */
+export const getUserProfile = async (c: Context) => {
+  // Get user id from token
+  let token, userId
+  if (c.headers.authorization && c.headers.authorization.startsWith('Bearer')) {
+    token = c.headers.authorization.split(' ')[1]
+    const decoded = await jwt.verify(token)
+    userId = decoded.id
+  }
+
+  // Check for user
+  const user = await User.findById(userId).select('-password')
+
+  if (!user) {
+    c.set.status = 404
+    throw new Error('User not found!')
+  }
+
+  return {
+    status: c.set.status,
+    success: true,
+    data: user,
+    message: 'Profile fetched successfully',
+  }
 }
 
 /**
